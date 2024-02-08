@@ -20,7 +20,7 @@ const Navbar = () => {
     }, [isSuccess]);
 
     return (
-        <nav className="bg-slate-50 dark:bg-slate-900 dark:border-b dark:border-gray-800">
+        <nav className="bg-slate-50 dark:bg-slate-900 dark:border-b dark:border-gray-800 px-4">
             <div className="max-w-7xl mx-auto flex justify-between items-center">
                 <h1 className="primary-gradient inline text-transparent bg-clip-text text-3xl font-bold">
                     <Link to="/">Notely</Link>

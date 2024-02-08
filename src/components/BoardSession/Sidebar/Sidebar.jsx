@@ -7,11 +7,9 @@ import { useParams } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const Sidebar = () => {
+const Sidebar = ({ isMobile, isCollapsed }) => {
     const { boardId } = useParams();
-    const isMobile = useMediaQuery("max-width:600px");
     const sidebarRef = useRef(null);
-    const [isCollapsed, setIscollapsed] = useState(isMobile);
     const [isResizing, setIsResizing] = useState(false);
 
     const { isLoading, data = [], isError } = useGetPagesQuery(boardId);
@@ -53,8 +51,10 @@ const Sidebar = () => {
         <div
             ref={sidebarRef}
             className={cn(
-                "bg-slate-900 w-[250px] relative border-r dark:border-slate-800 select-none",
-                isResizing && "cursor-col-resize"
+                "bg-slate-900 w-[250px]  border-r dark:border-slate-800 select-none",
+                isResizing && "cursor-col-resize",
+                isMobile && "absolute left-0 top-0 min-w-[200px] h-full z-9999",
+                isCollapsed && "-left-[250px] transition"
             )}
         >
             <div
