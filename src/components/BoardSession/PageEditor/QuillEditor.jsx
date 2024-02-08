@@ -45,7 +45,6 @@ const QuillEditor = ({ content = "", pageId }) => {
         const selectionHandler = (cursorId) => {
             return (range, oldRange, source) => {
                 if (source === "user" && cursorId) {
-                    console.log("CUrsor move triggered");
                     postCursorRange({ range, pageId, cursorId, boardId });
                     // Dispatch socket event here (range,pageId,cursorId,boardId)
                 }

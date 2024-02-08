@@ -40,7 +40,6 @@ const Signup = () => {
 
     const googleLoginHandler = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
-            console.log(tokenResponse);
             const res = await fetch(
                 "https://www.googleapis.com/oauth2/v3/userinfo",
                 {

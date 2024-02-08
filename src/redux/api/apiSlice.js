@@ -282,14 +282,12 @@ const apiSlice = createApi({
                         if (data.changedUserId === currentUserId) return;
                         updateCachedData((draft) => {
                             if (draft._id === data.pageId) {
-                                console.log(data.content);
                                 draft.content = data.content;
                             }
                         });
                     });
                     const handleCursorMove = (data) => {
                         const connectedUsers = getState().app.connectedUsers;
-                        console.log(pageId, data.pageId);
                         let updatedConnectedUsers;
                         if (pageId !== data.pageId) {
                             updatedConnectedUsers = connectedUsers.map(
