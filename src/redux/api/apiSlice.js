@@ -8,7 +8,6 @@ import {
     setConnectedUsers,
     setSelectedPageId,
 } from "../slices/appSlice";
-
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 let socket;
 
@@ -40,10 +39,12 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
         refreshTokenPromise = null;
         if (res?.data) {
             result = await baseQuery(args, api, extraOptions);
+            api.dispatch(loginUser(res.data.data));
+            Cookies.set("user", JSON.stringify(res.data.data), { expires: 7 });
+            Cookies.set("isLoggedIn", true, { expires: 7 });
         } else {
             api.dispatch(logoutUser());
-            Cookies.remove("user");
-            Cookies.remove("isLoggedIn");
+            window.location.reload();
         }
     }
     if (result?.error) {
@@ -95,8 +96,6 @@ const apiSlice = createApi({
             async onQueryStarted(args, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
                 dispatch(logoutUser());
-                Cookies.remove("user");
-                Cookies.remove("isLoggedIn");
             },
         }),
         getBoards: builder.query({
