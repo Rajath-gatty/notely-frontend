@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const Board = () => {
     const isMobile = window.innerWidth < 700;
-    const [isCollapsed, setIsCollapsed] = useState(!isMobile);
+    const [isCollapsed, setIsCollapsed] = useState(isMobile);
     return (
         <div className="h-full">
             <Navbar setIsCollapsed={setIsCollapsed} />
