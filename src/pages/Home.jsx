@@ -20,10 +20,10 @@ const Home = () => {
             <section className="max-w-6xl mx-auto">
                 <h2 className="text-2xl font-medium mt-6">Recents</h2>
                 <Separator className="my-4" />
-                <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4 w-full">
+                <div className="grid grid-cols-5 gap-4 w-full">
                     <Card
                         tabIndex="1"
-                        className="bg-indigo-700 w-full h-[150px] cursor-pointer"
+                        className="bg-indigo-700 max-w-[250px] h-[150px] cursor-pointer"
                         onClick={() => setModalOpen(true)}
                     >
                         <CardContent className="flex flex-col w-full mt-2 h-full justify-center items-center">

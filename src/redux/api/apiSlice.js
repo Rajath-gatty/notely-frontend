@@ -8,7 +8,6 @@ import {
     setConnectedUsers,
     setSelectedPageId,
 } from "../slices/appSlice";
-
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 let socket;
 
@@ -114,7 +113,7 @@ const apiSlice = createApi({
         }),
         getPages: builder.query({
             query: (boardId) => `app/${boardId}/pages`,
-            keepUnusedDataFor: 0,
+            keepUnusedDataFor: 2,
             async onCacheEntryAdded(
                 boardId,
                 {
@@ -126,9 +125,8 @@ const apiSlice = createApi({
                 }
             ) {
                 try {
-                    await cacheDataLoaded;
                     socket = getSocket();
-                    if (!socket.connected) socket.connect();
+                    await cacheDataLoaded;
                     const { _id, name, avatar, cover, assignedColor } =
                         getState().auth.user;
                     const userData = {
@@ -287,8 +285,7 @@ const apiSlice = createApi({
                             }
                         });
                     });
-
-                    socket.on("cursor-move", (data) => {
+                    const handleCursorMove = (data) => {
                         const connectedUsers = getState().app.connectedUsers;
                         let updatedConnectedUsers;
                         if (pageId !== data.pageId) {
@@ -319,21 +316,16 @@ const apiSlice = createApi({
                             }
                         });
                         dispatch(setConnectedUsers(updatedConnectedUsers));
-                    });
+                    };
+                    socket.on("cursor-move", handleCursorMove);
                 } catch (err) {}
                 await cacheEntryRemoved;
+                socket.off("cursor-move", handleCursorMove);
             },
         }),
         updatePageCover: builder.mutation({
             query: (data) => ({
                 url: "app/page/update-cover",
-                method: "POST",
-                body: data,
-            }),
-        }),
-        deletePageCover: builder.mutation({
-            query: (data) => ({
-                url: "app/page/delete-cover",
                 method: "POST",
                 body: data,
             }),
@@ -377,7 +369,6 @@ export const {
     usePostMessagesMutation,
     useGetPageQuery,
     useUpdatePageCoverMutation,
-    useDeletePageCoverMutation,
     useUpdatePageTitleMutation,
     useUpdatePageContentMutation,
     usePostCursorRangeMutation,

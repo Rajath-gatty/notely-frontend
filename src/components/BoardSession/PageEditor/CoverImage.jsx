@@ -1,24 +1,13 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-    useDeletePageCoverMutation,
-    useUpdatePageCoverMutation,
-} from "@/redux/api/apiSlice";
-import { ImagePlus, MoreVertical, Trash } from "lucide-react";
+import { useUpdatePageCoverMutation } from "@/redux/api/apiSlice";
+import { ImagePlus } from "lucide-react";
 import React, { useRef } from "react";
-import { useParams } from "react-router-dom";
 
 const CoverImage = ({ imageUrl = null, pageId }) => {
     const inputFileRef = useRef(null);
-    const { boardId } = useParams();
-    const [updatePageCover, { isLoading, isSuccess, isError }] =
+    const [updatePageCover, { isSuccess, isError }] =
         useUpdatePageCoverMutation();
-    const [deletePageCover] = useDeletePageCoverMutation();
 
     const handleFileChange = (e) => {
         const inputFile = e.target.files[0];
@@ -27,14 +16,6 @@ const CoverImage = ({ imageUrl = null, pageId }) => {
         formData.append("image", inputFile);
         formData.append("pageId", pageId);
         updatePageCover(formData);
-    };
-
-    const handleDeleteCover = () => {
-        deletePageCover({
-            boardId,
-            pageId,
-            imageUrl,
-        });
     };
 
     return (
@@ -64,28 +45,7 @@ const CoverImage = ({ imageUrl = null, pageId }) => {
                     </div>
                 </div>
             ) : (
-                <div>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <div className="absolute top-1 right-1 p-1 rounded-md cursor-disabled bg-black/50 z-[30] eas transition-opacity cursor-pointer">
-                                <MoreVertical size={18} color="#fff" />
-                            </div>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[100px] dark:bg-slate-950 p-0  cursor-pointer">
-                            <div
-                                className="flex gap-2 items-center group justify-center hover:bg-slate-800 p-2"
-                                onClick={handleDeleteCover}
-                            >
-                                <span className="text-[13px]">Delete</span>
-                                <Trash size={18} />
-                            </div>
-                        </PopoverContent>
-                    </Popover>
-                    <img
-                        className="w-full h-[120px] object-cover"
-                        src={imageUrl}
-                    />
-                </div>
+                <img className="w-full h-[120px] object-cover" src={imageUrl} />
             )}
         </>
     );
