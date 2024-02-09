@@ -113,7 +113,7 @@ const apiSlice = createApi({
         }),
         getPages: builder.query({
             query: (boardId) => `app/${boardId}/pages`,
-            keepUnusedDataFor: 2,
+            keepUnusedDataFor: 0,
             async onCacheEntryAdded(
                 boardId,
                 {
@@ -126,6 +126,7 @@ const apiSlice = createApi({
             ) {
                 try {
                     socket = getSocket();
+                    if (!socket?.connected) socket.connect();
                     await cacheDataLoaded;
                     const { _id, name, avatar, cover, assignedColor } =
                         getState().auth.user;
@@ -223,7 +224,7 @@ const apiSlice = createApi({
                 method: "POST",
                 body: { boardId },
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 0,
             async onCacheEntryAdded(
                 args,
                 { cacheDataLoaded, updateCachedData, cacheEntryRemoved }
@@ -320,6 +321,7 @@ const apiSlice = createApi({
                     });
                 } catch (err) {}
                 await cacheEntryRemoved;
+                dispatch(setSelectedPageId(null));
             },
         }),
         updatePageCover: builder.mutation({
