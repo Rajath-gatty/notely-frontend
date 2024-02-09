@@ -4,10 +4,10 @@ import Page from "./Page";
 import { useMediaQuery } from "usehooks-ts";
 import { useGetPagesQuery, usePostPageMutation } from "@/redux/api/apiSlice";
 import { useParams } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { ChevronsLeft, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const Sidebar = ({ isMobile, isCollapsed }) => {
+const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
     const { boardId } = useParams();
     const sidebarRef = useRef(null);
     const [isResizing, setIsResizing] = useState(false);
@@ -51,12 +51,19 @@ const Sidebar = ({ isMobile, isCollapsed }) => {
         <div
             ref={sidebarRef}
             className={cn(
-                "bg-slate-900 w-[250px]  border-r dark:border-slate-800 select-none",
+                "bg-slate-900 w-[250px] relative  border-r dark:border-slate-800 select-none transition ease-in-out duration-150",
                 isResizing && "cursor-col-resize",
-                isMobile && "absolute left-0 top-0 min-w-[200px] h-full z-9999",
-                isCollapsed && "-left-[250px] transition"
+                isMobile &&
+                    "absolute left-0 top-0 min-w-[200px] h-full z-[99999] transition ease-in-out",
+                isCollapsed && "transition w-0 min-w-0 hidden"
             )}
         >
+            <div
+                onClick={() => setIsCollapsed(true)}
+                className="absolute right-1 top-3 cursor-pointer hover:opacity-50"
+            >
+                <ChevronsLeft size={20} />
+            </div>
             <div
                 onMouseDown={handleMouseDown}
                 className={cn(
@@ -74,7 +81,12 @@ const Sidebar = ({ isMobile, isCollapsed }) => {
                             if (page.parentId === null) {
                                 return (
                                     <li key={page._id}>
-                                        <Page page={page} pageArr={data} />
+                                        <Page
+                                            page={page}
+                                            pageArr={data}
+                                            setIsCollapsed={setIsCollapsed}
+                                            isMobile={isMobile}
+                                        />
                                     </li>
                                 );
                             }

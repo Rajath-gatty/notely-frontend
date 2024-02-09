@@ -6,18 +6,22 @@ import { useState } from "react";
 
 const Board = () => {
     const isMobile = window.innerWidth < 700;
-    const [isCollapsed, setIscollapsed] = useState(!isMobile);
+    const [isCollapsed, setIsCollapsed] = useState(!isMobile);
     return (
         <div className="h-full">
-            <Navbar setIscollapsed={setIscollapsed} />
+            <Navbar setIsCollapsed={setIsCollapsed} />
             {isMobile && !isCollapsed && (
                 <div
-                    onClick={() => setIscollapsed(true)}
-                    className="absolute w-full h-full inset-0 bg-black/60 z-999"
+                    onClick={() => setIsCollapsed(true)}
+                    className="absolute w-full h-full inset-0 bg-black/60 z-[999]"
                 ></div>
             )}
             <div className="flex h-[calc(100vh-69px)] overflow-hidden">
-                <Sidebar isMobile={isMobile} isCollapsed={isCollapsed} />
+                <Sidebar
+                    isMobile={isMobile}
+                    isCollapsed={isCollapsed}
+                    setIsCollapsed={setIsCollapsed}
+                />
                 <PageEditor />
                 <CollabBar />
             </div>

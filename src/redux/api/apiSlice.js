@@ -285,7 +285,8 @@ const apiSlice = createApi({
                             }
                         });
                     });
-                    const handleCursorMove = (data) => {
+
+                    socket.on("cursor-move", (data) => {
                         const connectedUsers = getState().app.connectedUsers;
                         let updatedConnectedUsers;
                         if (pageId !== data.pageId) {
@@ -316,11 +317,9 @@ const apiSlice = createApi({
                             }
                         });
                         dispatch(setConnectedUsers(updatedConnectedUsers));
-                    };
-                    socket.on("cursor-move", handleCursorMove);
+                    });
                 } catch (err) {}
                 await cacheEntryRemoved;
-                socket.off("cursor-move", handleCursorMove);
             },
         }),
         updatePageCover: builder.mutation({

@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-const Page = ({ page, pageArr }) => {
+const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
     const dispatch = useDispatch();
     const { boardId } = useParams();
     const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +43,9 @@ const Page = ({ page, pageArr }) => {
     };
 
     const handleFileSelect = () => {
+        if (isMobile) {
+            setIsCollapsed((prev) => !prev);
+        }
         dispatch(setSelectedPageId(page._id));
     };
 
