@@ -53,7 +53,7 @@ const PageEditor = () => {
     return (
         <>
             {currentPage && !isLoading ? (
-                <div className="flex-1 h-full bg-slate-800/70">
+                <div className="flex-1 h-full  bg-slate-800/70">
                     <ScrollArea>
                         <div className="flex-1  h-[565px]">
                             <CoverImage
@@ -69,7 +69,7 @@ const PageEditor = () => {
                                     onChange={handleTitleChange}
                                     value={pageTitle}
                                 />
-                                <div className="relative h-auto mt-3">
+                                <div className="relative h-auto mt-3 z-0">
                                     <QuillEditor
                                         content={data.content}
                                         pageId={data._id}
@@ -81,7 +81,7 @@ const PageEditor = () => {
                 </div>
             ) : currentPage ? (
                 <div className="flex flex-col flex-1 h-full bg-slate-800/70">
-                    <div className="max-w-[600px] mx-auto w-full">
+                    <div className="md:max-w-[600px] max-w-[350px] mx-auto w-full">
                         <Skeleton className="w-full h-[25px] mt-[140px] mb-16  rounded-none" />
                         <div className="space-y-2">
                             <Skeleton className="w-full h-[16px] rounded-none" />
