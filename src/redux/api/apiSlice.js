@@ -8,6 +8,7 @@ import {
     setConnectedUsers,
     setSelectedPageId,
 } from "../slices/appSlice";
+
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 let socket;
 
@@ -113,7 +114,7 @@ const apiSlice = createApi({
         }),
         getPages: builder.query({
             query: (boardId) => `app/${boardId}/pages`,
-            keepUnusedDataFor: 2,
+            keepUnusedDataFor: 0,
             async onCacheEntryAdded(
                 boardId,
                 {
@@ -125,8 +126,9 @@ const apiSlice = createApi({
                 }
             ) {
                 try {
-                    socket = getSocket();
                     await cacheDataLoaded;
+                    socket = getSocket();
+                    if (!socket.connected) socket.connect();
                     const { _id, name, avatar, cover, assignedColor } =
                         getState().auth.user;
                     const userData = {
@@ -329,6 +331,13 @@ const apiSlice = createApi({
                 body: data,
             }),
         }),
+        deletePageCover: builder.mutation({
+            query: (data) => ({
+                url: "app/page/delete-cover",
+                method: "POST",
+                body: data,
+            }),
+        }),
         updatePageTitle: builder.mutation({
             query: (data) => ({
                 url: "app/page/update-title",
@@ -368,6 +377,7 @@ export const {
     usePostMessagesMutation,
     useGetPageQuery,
     useUpdatePageCoverMutation,
+    useDeletePageCoverMutation,
     useUpdatePageTitleMutation,
     useUpdatePageContentMutation,
     usePostCursorRangeMutation,
