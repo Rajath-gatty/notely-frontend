@@ -115,7 +115,6 @@ const apiSlice = createApi({
         getPages: builder.query({
             query: (boardId) => `app/${boardId}/pages`,
             keepUnusedDataFor: 0,
-            keepUnusedDataFor: 0,
             async onCacheEntryAdded(
                 boardId,
                 {
@@ -130,8 +129,6 @@ const apiSlice = createApi({
                     socket = getSocket();
                     if (!socket?.connected) socket.connect();
                     await cacheDataLoaded;
-                    socket = getSocket();
-                    if (!socket.connected) socket.connect();
                     const { _id, name, avatar, cover, assignedColor } =
                         getState().auth.user;
                     const userData = {
