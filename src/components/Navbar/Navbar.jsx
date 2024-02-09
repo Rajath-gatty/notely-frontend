@@ -46,17 +46,13 @@ const Navbar = ({ setIsCollapsed }) => {
                             </Button>
                         </div>
                     )}
-                    <div
-                        className={cn("flex gap-6", pathname === "/" || "py-8")}
-                    >
-                        {pathname === "/" && (
-                            <Navlink to="/pricing">Pricing</Navlink>
-                        )}
+                    <div className={cn("flex gap-6")}>
+                        {<Navlink to="/pricing">Pricing</Navlink>}
                         {!isAuth && <Navlink to="/login">Login</Navlink>}
                         {!isAuth && <Navlink to="/signup">Signup</Navlink>}
                     </div>
                     {isAuth && (
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 py-4">
                             <span className="text-sm text-slate-500 dark:text-white font-medium">
                                 {user.name}
                             </span>

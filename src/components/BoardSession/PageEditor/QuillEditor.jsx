@@ -87,7 +87,7 @@ const QuillEditor = ({ content = "", pageId }) => {
             }
         });
         setCursors(localCursors);
-    }, [quill]);
+    }, [quill, connectedUsers]);
 
     useEffect(() => {
         if (quill === null || connectedUsers.length !== cursors.length) return;
