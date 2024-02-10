@@ -64,7 +64,7 @@ const CoverImage = ({ imageUrl = null, pageId }) => {
                     </div>
                 </div>
             ) : (
-                <div>
+                <div className="relative">
                     <Popover>
                         <PopoverTrigger asChild>
                             <div className="absolute top-1 right-1 p-1 rounded-md cursor-disabled bg-black/50 z-[30] eas transition-opacity cursor-pointer">

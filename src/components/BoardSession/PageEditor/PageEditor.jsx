@@ -55,12 +55,12 @@ const PageEditor = () => {
             {currentPage && !isLoading ? (
                 <div className="flex-1 h-full  bg-slate-800/70">
                     <ScrollArea>
-                        <div className="flex-1  h-[565px]">
+                        <div className="flex-1 h-[calc(100vh-70px)] pb-[40px]">
                             <CoverImage
                                 pageId={currentPage}
                                 imageUrl={data?.coverImage}
                             />
-                            <div className="px-10 mt-2 h-auto">
+                            <div className=" px-4 md:px-10 mt-2">
                                 <Input
                                     type="text"
                                     className="bg-transparent outline-none border-none placeholder:font-bold text-2xl placeholder:text-slate-600/80 focus-visible:ring-0 focus-visible:shadow-none font-bold dark:text-slate-300 w-full whitespace-normal block text-wrap"
@@ -69,7 +69,7 @@ const PageEditor = () => {
                                     onChange={handleTitleChange}
                                     value={pageTitle}
                                 />
-                                <div className="relative h-auto mt-3 z-0">
+                                <div className="relative mt-3 z-0">
                                     <QuillEditor
                                         content={data.content}
                                         pageId={data._id}

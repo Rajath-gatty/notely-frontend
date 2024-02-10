@@ -322,7 +322,7 @@ const apiSlice = createApi({
                     });
                 } catch (err) {}
                 await cacheEntryRemoved;
-                dispatch(setSelectedPageId(null));
+                // dispatch(setSelectedPageId(null));
             },
         }),
         updatePageCover: builder.mutation({

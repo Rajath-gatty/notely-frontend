@@ -101,7 +101,7 @@ const QuillEditor = ({ content = "", pageId }) => {
 
     useEffect(() => {
         if (quill === null || connectedUsers.length !== cursors.length) return;
-        console.log("executing cursor");
+        console.log(connectedUsers);
         connectedUsers.forEach((user, i) => {
             cursors[i].moveCursor(user._id, user.cursorPos);
         });

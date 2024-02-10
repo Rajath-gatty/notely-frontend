@@ -18,9 +18,9 @@ const Home = () => {
         <>
             <Navbar />
             <section className="max-w-6xl mx-auto">
-                <h2 className="text-2xl font-medium mt-6">Recents</h2>
+                <h2 className="text-2xl font-medium mt-6 ml-3">Recents</h2>
                 <Separator className="my-4" />
-                <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4 w-full">
+                <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4 w-full px-3">
                     <Card
                         tabIndex="1"
                         className="bg-indigo-700 w-full h-[150px] cursor-pointer"
