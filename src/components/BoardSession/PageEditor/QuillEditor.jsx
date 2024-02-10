@@ -46,15 +46,24 @@ const QuillEditor = ({ content = "", pageId }) => {
             return (range, oldRange, source) => {
                 if (source === "user" && cursorId) {
                     postCursorRange({ range, pageId, cursorId, boardId });
-                    // Dispatch socket event here (range,pageId,cursorId,boardId)
                 }
             };
         };
+
         const quillHandler = (delta, oldDelta, source) => {
             if (source !== "user") return;
+
             quill.updateContents(JSON.stringify(delta));
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
             timeoutRef.current = setTimeout(() => {
+                const range = quill.getSelection();
+                postCursorRange({
+                    range,
+                    pageId,
+                    cursorId: currentUser._id,
+                    boardId,
+                });
                 updatePageContent({
                     content: JSON.stringify(quill.getContents()),
                     pageId,
@@ -75,6 +84,7 @@ const QuillEditor = ({ content = "", pageId }) => {
     useEffect(() => {
         if (quill === null) return;
         let localCursors = [];
+        // console.log(connectedUsers);
         connectedUsers.forEach((user) => {
             if (user._id !== currentUser._id) {
                 const userCursor = quill.getModule("cursors");
@@ -91,6 +101,7 @@ const QuillEditor = ({ content = "", pageId }) => {
 
     useEffect(() => {
         if (quill === null || connectedUsers.length !== cursors.length) return;
+        console.log("executing cursor");
         connectedUsers.forEach((user, i) => {
             cursors[i].moveCursor(user._id, user.cursorPos);
         });
