@@ -112,6 +112,14 @@ const apiSlice = createApi({
             }),
             invalidatesTags: ["BOARD"],
         }),
+        deleteBoard: builder.mutation({
+            query: (data) => ({
+                url: "app/delete-board",
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: ["BOARD"],
+        }),
         getPages: builder.query({
             query: (boardId) => `app/${boardId}/pages`,
             keepUnusedDataFor: 0,
@@ -371,6 +379,7 @@ export const {
     useSignupMutation,
     useGetBoardsQuery,
     usePostBoardMutation,
+    useDeleteBoardMutation,
     useGetPagesQuery,
     usePostPageMutation,
     useDeletePageMutation,

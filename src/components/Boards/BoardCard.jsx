@@ -1,8 +1,10 @@
 import { MoreVertical, Trash } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Link } from "react-router-dom";
+import { useDeleteBoardMutation } from "@/redux/api/apiSlice";
 
 const BoardCard = ({ title, coverImage, id }) => {
+    const [deleteBoard] = useDeleteBoardMutation();
     return (
         <div
             className="board-card rounded-lg overflow-hidden group"
@@ -15,7 +17,12 @@ const BoardCard = ({ title, coverImage, id }) => {
                     </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-[100px] dark:bg-slate-950 p-0  cursor-pointer">
-                    <div className="flex gap-2 items-center group justify-center hover:bg-slate-800 p-2">
+                    <div
+                        className="flex gap-2 items-center group justify-center hover:bg-slate-800 p-2"
+                        onClick={() =>
+                            deleteBoard({ boardId: id, imageUrl: coverImage })
+                        }
+                    >
                         <span className="text-[13px]">Delete</span>
                         <Trash size={18} />
                     </div>

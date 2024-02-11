@@ -85,7 +85,14 @@ const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
                         </p>
                     </div>
                 </div>
-                <div className="flex gap-2 items-center invisible group/item group-hover/item:visible absolute right-2 dark:bg-slate-900">
+                <div
+                    className={cn(
+                        "flex gap-2 items-center absolute right-2 dark:bg-slate-900",
+                        !isMobile
+                            ? "invisible group/item group-hover/item:visible "
+                            : ""
+                    )}
+                >
                     <Plus size={18} onClick={handleNewPage} />
                     <Trash2 size={15} onClick={handleDeleteFile} />
                 </div>

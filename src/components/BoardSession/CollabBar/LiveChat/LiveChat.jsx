@@ -27,14 +27,14 @@ const LiveChat = () => {
         if (!message.trim()) return;
         if (!user?._id) return;
         const msg = {
-            senderId: user._id,
+            sender: user._id,
             message,
             boardId,
-            senderName: user.name,
         };
         postMessages(msg);
         e.target.reset();
     };
+    console.log(data);
 
     useEffect(() => {
         if (scrollRef?.current) {
@@ -51,20 +51,31 @@ const LiveChat = () => {
                 <CardContent className="p-2">
                     <ScrollArea>
                         <div className="mt-4 min-h-[300px] max-h-[300px] pr-2">
-                            {data.map((msg) => (
-                                <div
-                                    className="flex flex-col"
-                                    ref={scrollRef}
-                                    key={msg._id}
-                                >
-                                    <Message
-                                        message={msg.message}
-                                        time={msg.createdAt}
-                                        sent={msg.senderId === user?._id}
-                                        senderName={msg.senderName}
-                                    />
-                                </div>
-                            ))}
+                            {data.map((msg, i) => {
+                                return (
+                                    <div
+                                        className="flex flex-col"
+                                        ref={scrollRef}
+                                        key={msg._id}
+                                    >
+                                        <Message
+                                            message={msg.message}
+                                            time={msg.createdAt}
+                                            sent={msg.sender._id === user?._id}
+                                            senderName={msg.sender.name}
+                                            senderAvatar={msg.sender.avatar}
+                                            showSenderProfile={
+                                                msg.sender._id !==
+                                                data[i - 1]?.sender._id
+                                            }
+                                            showSenderAvatar={
+                                                msg.sender._id !==
+                                                data[i + 1]?.sender._id
+                                            }
+                                        />
+                                    </div>
+                                );
+                            })}
                         </div>
                     </ScrollArea>
                     <Separator className="my-2" />
