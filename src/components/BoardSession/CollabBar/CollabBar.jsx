@@ -1,7 +1,6 @@
 import React from "react";
-import ConnectedUsers from "./ConnectedUsers";
 import LiveChat from "./LiveChat/LiveChat";
-import Share from "./share";
+import Share from "./Share";
 
 const CollabBar = () => {
     return (
