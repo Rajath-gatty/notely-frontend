@@ -108,6 +108,10 @@ const QuillEditor = ({ content = "", pageId }) => {
         // Listen for the cursor move socket event
     }, [quill, connectedUsers, connectedUsers.length]);
 
+    const handleImageUpload = (e) => {
+        console.log(e);
+    };
+
     const quillWrapper = useCallback(async (wrapper) => {
         if (!wrapper) return;
         wrapper.innerHTML = "";

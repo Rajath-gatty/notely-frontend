@@ -27,10 +27,20 @@ const authSlice = createSlice({
         setTheme: (state, action) => {
             state.theme = action.payload;
         },
+        upgradeMembership: (state) => {
+            state.user.plan = "pro";
+            Cookies.set("isLoggedIn", true, { expires: 7 });
+            Cookies.set(
+                "user",
+                JSON.stringify({ ...state.user, plan: "pro" }),
+                { expires: 7 }
+            );
+        },
     },
 });
 
-export const { loginUser, logoutUser, setTheme } = authSlice.actions;
+export const { loginUser, logoutUser, setTheme, upgradeMembership } =
+    authSlice.actions;
 
 export const getCurrentUser = (state) => state.auth.user;
 export const isLoggedIn = (state) => state.auth.isLoggedIn;

@@ -1,11 +1,12 @@
 import React from "react";
 import ConnectedUsers from "./ConnectedUsers";
 import LiveChat from "./LiveChat/LiveChat";
+import Share from "./share";
 
 const CollabBar = () => {
     return (
         <div className="flex-[0.5] bg-slate-900 border-l h-full dark:border-slate-800 hidden md:block">
-            {/* <ConnectedUsers /> */}
+            <Share />
             <LiveChat />
         </div>
     );

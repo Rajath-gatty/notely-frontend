@@ -27,14 +27,14 @@ const Message = ({
                     )}
                 >
                     {showSenderProfile && (
-                        <span className="text-xs text-slate-400 ">
+                        <span className="text-xs text-slate-400 mt-2 mb-1">
                             {senderName}
                         </span>
                     )}
                     <div
                         className={cn(
                             "p-2 rounded-md flex flex-col max-w-[250px] ",
-                            sent ? "bg-indigo-900/60" : "bg-slate-600"
+                            sent ? "bg-blue-600" : " bg-indigo-900/60"
                         )}
                     >
                         <p className="text-xs ">{message}</p>

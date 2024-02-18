@@ -133,9 +133,14 @@ const BoardNewCoverSelector = ({
                           )}
                       </div>
                   ))
-                : new Array(10)
-                      .fill(0)
-                      .map((item) => <Skeleton className="w-full h-[70px]" />)}
+                : new Array(10).fill(0).map((item) => (
+                      <div
+                          className="grid grid-cols-5 w-full gap-2 h-full"
+                          key={Math.random()}
+                      >
+                          <Skeleton className="w-full h-[70px]" />
+                      </div>
+                  ))}
         </>
     );
 };

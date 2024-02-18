@@ -14,7 +14,7 @@ import BoardNewCoverSelector from "./BoardNewCoverSelector";
 import { Button } from "../ui/button";
 import { usePostBoardMutation } from "@/redux/api/apiSlice";
 
-const CreateBoard = ({ modalOpen, setModalOpen }) => {
+const CreateBoard = ({ modalOpen, setModalOpen, setTierLimitReached }) => {
     const [unsplashImages, setUnsplashImages] = useState([]);
 
     const [boardTitle, setBoardTitle] = useState("");
@@ -35,10 +35,16 @@ const CreateBoard = ({ modalOpen, setModalOpen }) => {
     }, [boardTitle, boardType, selectedImageId]);
 
     useEffect(() => {
-        if (isSuccess) {
-            setModalOpen(false);
-        }
+        if (isSuccess) setModalOpen(false);
     }, [isSuccess]);
+
+    useEffect(() => {
+        if (isError) {
+            if (!error.data.errors.length) {
+                setTierLimitReached(true);
+            }
+        }
+    }, [isError]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -56,11 +62,10 @@ const CreateBoard = ({ modalOpen, setModalOpen }) => {
         if (!selectedImage) return;
 
         const formData = new FormData();
-        formData.append("name", boardTitle);
+        formData.append("title", boardTitle);
         formData.append("imageType", imageType);
         formData.append("image", selectedImage);
         formData.append("boardType", boardType);
-
         postBoard(formData);
     };
 
@@ -76,6 +81,13 @@ const CreateBoard = ({ modalOpen, setModalOpen }) => {
                     onChange={(e) => setBoardTitle(e.target.value)}
                     disableFocus
                 />
+                <div>
+                    {isError && (
+                        <p className="text-red-600 text-sm mt-2">
+                            {error.data.errors[0]?.message}
+                        </p>
+                    )}
+                </div>
             </div>
             <div>
                 <Label>Board Type</Label>
@@ -109,11 +121,6 @@ const CreateBoard = ({ modalOpen, setModalOpen }) => {
                         </ScrollArea>
                     </CardContent>
                 </Card>
-            </div>
-            <div>
-                {isError && (
-                    <p className="text-red-700">Something went wrong</p>
-                )}
             </div>
             <div className="flex gap-4 w-full justify-end">
                 <Button

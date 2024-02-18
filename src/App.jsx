@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import Pricing from "./pages/Pricing";
 import OrderSummary from "./pages/OrderSummary";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Checkout from "./pages/Checkout";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/summary" element={<OrderSummary />} />
+                    <Route path="/checkout" element={<Checkout />} />
                     <Route path="/board/:boardId" element={<Board />} />
                     <Route path="/profile" element={<Profile />} />
                 </Route>

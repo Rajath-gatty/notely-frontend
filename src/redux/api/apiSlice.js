@@ -58,7 +58,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: baseQueryWithReAuth,
-    tagTypes: ["BOARD"],
+    tagTypes: ["BOARD", "PROFILE"],
     endpoints: (builder) => ({
         signup: builder.mutation({
             query: (data) => ({
@@ -94,6 +94,7 @@ const apiSlice = createApi({
                 url: "auth/logout",
                 method: "POST",
             }),
+            invalidatesTags: ["PROFILE", "BOARD"],
             async onQueryStarted(args, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
                 dispatch(logoutUser());
@@ -102,7 +103,6 @@ const apiSlice = createApi({
         getBoards: builder.query({
             query: () => "app/boards",
             providesTags: ["BOARD"],
-            keepUnusedDataFor: 2,
         }),
         postBoard: builder.mutation({
             query: (data) => ({
@@ -154,43 +154,62 @@ const apiSlice = createApi({
                     });
                     socket.on("new-page", (data) => {
                         updateCachedData((draft) => {
-                            const index = draft.findIndex(
+                            const index = draft.pages.findIndex(
                                 (page) => page._id === data.parentId
                             );
                             if (index > 0) {
-                                draft[index].childIds.push(data._id);
+                                draft.pages[index].childIds.push(data._id);
                             }
-                            draft.push(data);
+                            draft.pages.push(data);
                         });
                     });
                     socket.on("delete-page", (pageId) => {
                         updateCachedData((draft) => {
-                            const index = draft.findIndex(
+                            const index = draft.pages.findIndex(
                                 (page) => page._id === pageId
                             );
-                            if (draft[index].childIds.length > 0) {
-                                draft[index].childIds.forEach((childId) => {
-                                    const childIndex = draft.findIndex(
-                                        (page) => page._id === childId
-                                    );
-                                    draft.splice(childIndex, 1);
-                                });
+                            if (draft.pages[index].childIds.length > 0) {
+                                draft.pages[index].childIds.forEach(
+                                    (childId) => {
+                                        const childIndex =
+                                            draft.pages.findIndex(
+                                                (page) => page._id === childId
+                                            );
+                                        draft.pages.splice(childIndex, 1);
+                                    }
+                                );
                             }
-                            if (draft[index]._id === pageId) {
+                            if (draft.pages[index]._id === pageId) {
                                 dispatch(setSelectedPageId(null));
                                 // Show toast notification if wanted
                             }
-                            draft.splice(index, 1);
+                            draft.pages.splice(index, 1);
                         });
                     });
                     socket.on("title-update", (data) => {
                         updateCachedData((draft) => {
-                            const index = draft.findIndex(
+                            const index = draft.pages.findIndex(
                                 (page) => page._id === data.pageId
                             );
                             if (isNaN(index)) return;
-                            draft[index].title = data.title;
+                            draft.pages[index].title = data.title;
                         });
+                        const { patches } = dispatch(
+                            apiSlice.util.updateQueryData(
+                                "getPage",
+                                data.pageId,
+                                (draft) => {
+                                    draft.title = data.title;
+                                }
+                            )
+                        );
+                        dispatch(
+                            apiSlice.util.patchQueryData(
+                                "getPage",
+                                data.pageId,
+                                patches
+                            )
+                        );
                     });
                     socket.on("connected-users", (users) => {
                         const userId = getState().auth.user._id;
@@ -369,6 +388,54 @@ const apiSlice = createApi({
                 );
             },
         }),
+        getProfile: builder.query({
+            query: () => ({
+                url: "app/profile",
+                method: "POST",
+            }),
+            providesTags: ["PROFILE"],
+        }),
+        // Api related to Payments
+        checkCustomer: builder.query({
+            query: () => "app/check-customer",
+            keepUnusedDataFor: 0,
+        }),
+        postCustomerForm: builder.mutation({
+            query: (data) => ({
+                url: "app/checkout/customer-form",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        updateCustomerForm: builder.mutation({
+            query: (data) => ({
+                url: "app/update-form",
+                method: "POST",
+                body: data,
+            }),
+            async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+                const patchResult = dispatch(
+                    apiSlice.util.updateQueryData(
+                        "getProfile",
+                        undefined,
+                        (draft) => {
+                            draft.profile.email = patch.email;
+                            draft.profile.address = {
+                                line1: patch.address,
+                                city: patch.city,
+                                state: patch.state,
+                                postal_code: patch.pincode,
+                            };
+                        }
+                    )
+                );
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    patchResult.undo();
+                }
+            },
+        }),
     }),
 });
 
@@ -391,6 +458,10 @@ export const {
     useUpdatePageTitleMutation,
     useUpdatePageContentMutation,
     usePostCursorRangeMutation,
+    useCheckCustomerQuery,
+    usePostCustomerFormMutation,
+    useGetProfileQuery,
+    useUpdateCustomerFormMutation,
 } = apiSlice;
 
 export default apiSlice;

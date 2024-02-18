@@ -20,7 +20,7 @@ const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
     const isAuth = useSelector(isLoggedIn);
     const [isResizing, setIsResizing] = useState(false);
 
-    const { isLoading, data = [], isError } = useGetPagesQuery(boardId);
+    const { isLoading, data, isError } = useGetPagesQuery(boardId);
     const [logout, { isLoading: logoutLoading, isSuccess: logoutSuccess }] =
         useLogoutMutation();
     const [postPage] = usePostPageMutation();
@@ -89,17 +89,17 @@ const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
             />
             <div>
                 <h3 className="font-bold select-none mt-4 mb-3 text-xs uppercase text-center text-slate-300">
-                    Mountains trip 2023
+                    {data?.boardName}
                 </h3>
                 <ul>
                     {!isLoading ? (
-                        data.map((page) => {
+                        data?.pages.map((page) => {
                             if (page.parentId === null) {
                                 return (
                                     <li key={page._id}>
                                         <Page
                                             page={page}
-                                            pageArr={data}
+                                            pageArr={data?.pages}
                                             setIsCollapsed={setIsCollapsed}
                                             isMobile={isMobile}
                                         />

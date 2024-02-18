@@ -23,7 +23,7 @@ const PageEditor = () => {
     } = useGetPageQuery(currentPage || "");
     const [updatePageTitle] = useUpdatePageTitleMutation();
 
-    const [pageTitle, setPageTitle] = useState("");
+    const [pageTitle, setPageTitle] = useState(data.title || "");
     const [isLoading, setisLoading] = useState(true);
 
     const debouncedValue = useDebounce(pageTitle, 500);
@@ -33,16 +33,17 @@ const PageEditor = () => {
     };
 
     useEffect(() => {
+        if (pageTitle === "") return;
+        setPageTitle(data.title);
+    }, [data.title]);
+
+    useEffect(() => {
         setisLoading(true);
         setTimeout(() => {
             if (!isFetching) {
                 setisLoading(false);
             }
         }, 400);
-    }, [isFetching]);
-
-    useEffect(() => {
-        if (!isFetching) setPageTitle(data.title);
     }, [isFetching]);
 
     useEffect(() => {

@@ -63,7 +63,7 @@ const Login = () => {
     return (
         <>
             <Navbar />
-            <section className="max-w-[450px] mx-auto mt-4">
+            <section className="max-w-[450px] md:mx-auto mt-4 mx-4 ">
                 <Card className="dark:bg-slate-900">
                     <CardHeader>
                         <CardTitle className="text-center">Login</CardTitle>

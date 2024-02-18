@@ -34,7 +34,6 @@ const LiveChat = () => {
         postMessages(msg);
         e.target.reset();
     };
-    console.log(data);
 
     useEffect(() => {
         if (scrollRef?.current) {
@@ -45,9 +44,7 @@ const LiveChat = () => {
     return (
         <div className="mx-2">
             <Card className=" dark:bg-slate-900 ">
-                <h3 className="px-3 font-medium text-slate-300 py-2">
-                    Live Chat
-                </h3>
+                <h3 className="px-3 font-bold py-2">Live Chat</h3>
                 <CardContent className="p-2">
                     <ScrollArea>
                         <div className="mt-4 min-h-[300px] max-h-[300px] pr-2">

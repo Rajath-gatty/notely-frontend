@@ -2,9 +2,20 @@ import { MoreVertical, Trash } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Link } from "react-router-dom";
 import { useDeleteBoardMutation } from "@/redux/api/apiSlice";
+import { useEffect } from "react";
+import { useToast } from "../ui/use-toast";
 
 const BoardCard = ({ title, coverImage, id }) => {
-    const [deleteBoard] = useDeleteBoardMutation();
+    const [deleteBoard, { isSuccess }] = useDeleteBoardMutation();
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast({
+                title: "Board deleted",
+            });
+        }
+    }, [isSuccess]);
     return (
         <div
             className="board-card rounded-lg overflow-hidden group"
