@@ -51,7 +51,12 @@ const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
 
     const handleDeleteFile = (e) => {
         e.stopPropagation();
-        deletePage({ pageId: page._id, childIds: page.childIds, boardId });
+        deletePage({
+            pageId: page._id,
+            parentId: page.parentId,
+            childIds: page.childIds,
+            boardId,
+        });
     };
     return (
         <>
@@ -101,6 +106,7 @@ const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
                 <ul className="ml-4">
                     {page.childIds.map((childId) => {
                         const item = pageArr.find((i) => i._id === childId);
+                        if (!item) return;
                         return (
                             <li key={item._id}>
                                 <Page page={item} pageArr={pageArr} />

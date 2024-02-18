@@ -136,7 +136,7 @@ const apiSlice = createApi({
             ) {
                 try {
                     socket = getSocket();
-                    if (!socket?.connected) socket.connect();
+                    if (!socket.connected) socket.connect();
                     await cacheDataLoaded;
                     const { _id, name, avatar, cover, assignedColor } =
                         getState().auth.user;
@@ -158,7 +158,7 @@ const apiSlice = createApi({
                             const index = draft.pages.findIndex(
                                 (page) => page._id === data.parentId
                             );
-                            if (index > 0) {
+                            if (index >= 0) {
                                 draft.pages[index].childIds.push(data._id);
                             }
                             draft.pages.push(data);
