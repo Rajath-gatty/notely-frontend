@@ -85,7 +85,7 @@ const Profile = () => {
                             <h1 className="text-xl font-bold mt-4">
                                 Subscription History
                             </h1>
-                            <p className="text-slate-400 mb-4 text-sm">
+                            <p className="text-slate-500 mb-4 md:text-sm text-xs">
                                 Manage Billing Information and view receipts
                             </p>
                             <SubscriptionHistory

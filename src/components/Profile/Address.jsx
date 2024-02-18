@@ -59,7 +59,7 @@ const Address = ({ data }) => {
         <>
             {data && data?.subscriptions ? (
                 <>
-                    <p className="text-sm text-slate-400 mb-2">
+                    <p className="md:text-sm text-xs text-slate-500 mb-4">
                         Make changes to your profile here. Click save when
                         you're done.
                     </p>

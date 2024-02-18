@@ -25,7 +25,7 @@ export default function CheckoutForm({ customerDetails }) {
         const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: "http://localhost:5173",
+                return_url: import.meta.env.VITE_CLIENT_URL,
                 payment_method_data: {
                     billing_details: customerDetails,
                 },
