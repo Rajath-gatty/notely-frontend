@@ -84,7 +84,6 @@ const QuillEditor = ({ content = "", pageId }) => {
     useEffect(() => {
         if (quill === null) return;
         let localCursors = [];
-        // console.log(connectedUsers);
         connectedUsers.forEach((user) => {
             if (user._id !== currentUser._id) {
                 const userCursor = quill.getModule("cursors");
@@ -101,16 +100,11 @@ const QuillEditor = ({ content = "", pageId }) => {
 
     useEffect(() => {
         if (quill === null || connectedUsers.length !== cursors.length) return;
-        console.log(connectedUsers);
         connectedUsers.forEach((user, i) => {
             cursors[i].moveCursor(user._id, user.cursorPos);
         });
         // Listen for the cursor move socket event
     }, [quill, connectedUsers, connectedUsers.length]);
-
-    const handleImageUpload = (e) => {
-        console.log(e);
-    };
 
     const quillWrapper = useCallback(async (wrapper) => {
         if (!wrapper) return;

@@ -17,7 +17,7 @@ const PricingCard = ({
     return (
         <Card
             className={cn(
-                "max-w-[350px] w-full h-full flex flex-col dark:bg-slate-900",
+                "max-w-[350px] w-full flex flex-col dark:bg-slate-900",
                 className,
                 isPro && "border-gradient"
             )}
@@ -25,7 +25,7 @@ const PricingCard = ({
             {isPro && (
                 <div className="primary-gradient w-full h-[5px] overflow-hidden rounded-t-sm absolute top-0 right-0"></div>
             )}
-            <CardHeader>
+            <CardHeader className="p-4 md:p-6">
                 <h3 className="text-center md:text-2xl text-md font-bold">
                     {plan}
                 </h3>
@@ -35,8 +35,8 @@ const PricingCard = ({
                     &#8377;{price}
                 </span>
                 <span className=" text-slate-500">/ per month</span>
-                <div className="h-full grid grid-rows-1 gap-8">
-                    <div className="mt-8 space-y-3">{children}</div>
+                <div className="h-full grid grid-rows-1 md:gap-8 gap-6">
+                    <div className="md:mt-8 mt-6 space-y-3">{children}</div>
 
                     {!isPro ? (
                         <Button className="w-full" disabled variant="outline">

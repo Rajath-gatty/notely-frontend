@@ -31,7 +31,6 @@ const Home = () => {
 
         stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
             if (paymentIntent?.status === "succeeded") {
-                console.log(paymentIntent);
                 setModalOpen(true);
                 setIsPaid(true);
                 setSearchParams("");

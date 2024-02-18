@@ -7,13 +7,12 @@ import { useGetProfileQuery } from "@/redux/api/apiSlice";
 import { getCurrentUser } from "@/redux/slices/authSlice";
 import React from "react";
 import { useSelector } from "react-redux";
-import { cn } from "@/lib/utils";
 import Address from "@/components/Profile/Address";
 import SubscriptionHistory from "@/components/Profile/SubscriptionHistory";
 
 const Profile = () => {
     const user = useSelector(getCurrentUser);
-    const { isLoading, data, isError } = useGetProfileQuery();
+    const { isLoading, data } = useGetProfileQuery();
     return (
         <div>
             <Navbar />

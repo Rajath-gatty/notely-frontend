@@ -24,7 +24,6 @@ const CustomerForm = ({
             }),
             {}
         );
-        console.log(result);
         setErrors(result);
     }, [isError]);
     return (

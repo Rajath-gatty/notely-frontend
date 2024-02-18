@@ -120,7 +120,7 @@ const BoardNewCoverSelector = ({
                           key={img.id}
                       >
                           <img
-                              className="w-full h-[70px] object-cover hover:opacity-75 cursor-pointer"
+                              className="w-full h-[55px] md:h-[70px] object-cover hover:opacity-75 cursor-pointer"
                               src={img.image.thumb}
                               alt="Board cover"
                               onClick={() => handleSelectImage(img.id)}

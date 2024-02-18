@@ -9,8 +9,10 @@ const Pricing = () => {
         <>
             <Navbar />
             <section className="max-w-5xl mx-auto md:mt-6 md:my-4 mt-4">
-                <h2 className="md:text-3xl font-bold ml-2 text-lg">Pricing</h2>
-                <Separator className="md:my-4 my-2" />
+                <h2 className="md:text-3xl font-bold ml-4 md:ml-2 text-lg mb-4 lg:mb-0 ">
+                    Pricing
+                </h2>
+                <Separator className="md:my-4 my-2 hidden md:block" />
                 <div className="flex md:gap-10 gap-5 lg:flex-row md:flex-row flex-col items-center justify-center">
                     <PricingCard plan="Personal" price={0}>
                         <Info title="Maximun 3 boards" />

@@ -43,7 +43,6 @@ const Checkout = () => {
         const city = formData.get("city");
         const pincode = formData.get("pincode");
         const state = formData.get("state");
-        console.log({ name, email, address, city, pincode, state });
 
         if (!data.customerId) {
             postCustomerForm({
@@ -66,7 +65,6 @@ const Checkout = () => {
             navigate("/");
         }
         if (isSuccess) {
-            console.log(paymentIntent);
             setCurrentStep(2);
         }
     }, [isSuccess, isError]);
