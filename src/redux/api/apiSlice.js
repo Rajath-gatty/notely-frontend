@@ -98,6 +98,7 @@ const apiSlice = createApi({
             async onQueryStarted(args, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
                 dispatch(logoutUser());
+                window.location.href = location.origin + "/login";
             },
         }),
         getBoards: builder.query({
