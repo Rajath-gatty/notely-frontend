@@ -95,6 +95,7 @@ const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
                     {!isLoading ? (
                         data?.pages.map((page) => {
                             if (page.parentId === null) {
+                                console.log(page);
                                 return (
                                     <li key={page._id}>
                                         <Page

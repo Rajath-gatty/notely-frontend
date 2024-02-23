@@ -226,6 +226,7 @@ const apiSlice = createApi({
                 } catch (err) {}
                 await cacheEntryRemoved;
                 dispatch(clearUsers());
+                socket.off();
                 socket.close();
             },
         }),

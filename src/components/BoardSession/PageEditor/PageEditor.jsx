@@ -33,8 +33,19 @@ const PageEditor = () => {
     };
 
     useEffect(() => {
-        if (pageTitle === "") return;
-        setPageTitle(data.title);
+        if (isSuccess) {
+            setPageTitle(data.title);
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (data.title) {
+            if (data.title === "Untitled") {
+                setPageTitle("");
+            } else {
+                setPageTitle(data.title);
+            }
+        }
     }, [data.title]);
 
     useEffect(() => {
