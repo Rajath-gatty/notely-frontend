@@ -12,11 +12,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { isLoggedIn } from "@/redux/slices/authSlice";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { setSelectedPageId } from "@/redux/slices/appSlice";
 
 const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
     const { boardId } = useParams();
-    const [searchParams, setSearchParams] = useSearchParams();
     const sidebarRef = useRef(null);
     const navigate = useNavigate();
     const isAuth = useSelector(isLoggedIn);
@@ -104,7 +102,6 @@ const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
                                             pageArr={data?.pages}
                                             setIsCollapsed={setIsCollapsed}
                                             isMobile={isMobile}
-                                            setSearchParams={setSearchParams}
                                         />
                                     </li>
                                 );

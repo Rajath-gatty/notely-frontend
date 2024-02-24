@@ -35,8 +35,13 @@ const PageEditor = () => {
     };
 
     useLayoutEffect(() => {
-        setSelectedPageId(currentPage);
-    }, []);
+        if (isError) {
+            setSearchParams("");
+            setSelectedPageId(null);
+        } else {
+            setSelectedPageId(currentPage);
+        }
+    }, [isError]);
 
     useEffect(() => {
         if (isSuccess) {

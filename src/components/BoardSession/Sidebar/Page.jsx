@@ -3,22 +3,16 @@ import {
     useDeletePageMutation,
     usePostPageMutation,
 } from "@/redux/api/apiSlice";
-import { selectedPage, setSelectedPageId } from "@/redux/slices/appSlice";
+import { setSelectedPageId } from "@/redux/slices/appSlice";
 import { ChevronRight, File, Plus, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
 
-const Page = ({
-    page,
-    pageArr,
-    setIsCollapsed,
-    isMobile = false,
-    setSearchParams,
-}) => {
+const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
     const dispatch = useDispatch();
     const { boardId } = useParams();
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
     const [postPage, { isError }] = usePostPageMutation();
 
@@ -57,6 +51,8 @@ const Page = ({
 
     const handleDeleteFile = (e) => {
         e.stopPropagation();
+        setSearchParams("");
+        setSelectedPageId(null);
         deletePage({
             pageId: page._id,
             parentId: page.parentId,
