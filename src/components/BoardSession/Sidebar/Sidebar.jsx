@@ -6,15 +6,17 @@ import {
     useLogoutMutation,
     usePostPageMutation,
 } from "@/redux/api/apiSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ChevronsLeft, LogOut, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { isLoggedIn } from "@/redux/slices/authSlice";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { setSelectedPageId } from "@/redux/slices/appSlice";
 
 const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
     const { boardId } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const sidebarRef = useRef(null);
     const navigate = useNavigate();
     const isAuth = useSelector(isLoggedIn);
@@ -95,7 +97,6 @@ const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
                     {!isLoading ? (
                         data?.pages.map((page) => {
                             if (page.parentId === null) {
-                                console.log(page);
                                 return (
                                     <li key={page._id}>
                                         <Page
@@ -103,6 +104,7 @@ const Sidebar = ({ isMobile, isCollapsed, setIsCollapsed }) => {
                                             pageArr={data?.pages}
                                             setIsCollapsed={setIsCollapsed}
                                             isMobile={isMobile}
+                                            setSearchParams={setSearchParams}
                                         />
                                     </li>
                                 );

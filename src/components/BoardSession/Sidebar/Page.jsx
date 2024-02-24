@@ -7,17 +7,22 @@ import { selectedPage, setSelectedPageId } from "@/redux/slices/appSlice";
 import { ChevronRight, File, Plus, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
-const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
+const Page = ({
+    page,
+    pageArr,
+    setIsCollapsed,
+    isMobile = false,
+    setSearchParams,
+}) => {
     const dispatch = useDispatch();
     const { boardId } = useParams();
+    const [searchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
     const [postPage, { isError }] = usePostPageMutation();
 
-    const isPageSelected = useSelector(
-        (state) => selectedPage(state) === page._id
-    );
+    const isPageSelected = searchParams.get("pageId") === page._id;
     const [deletePage, { isSuccess }] = useDeletePageMutation();
 
     useEffect(() => {
@@ -46,6 +51,7 @@ const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
         if (isMobile) {
             setIsCollapsed((prev) => !prev);
         }
+        setSearchParams({ pageId: page._id });
         dispatch(setSelectedPageId(page._id));
     };
 
@@ -109,7 +115,11 @@ const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
                         if (!item) return;
                         return (
                             <li key={item._id}>
-                                <Page page={item} pageArr={pageArr} />
+                                <Page
+                                    page={item}
+                                    pageArr={pageArr}
+                                    setSearchParams={setSearchParams}
+                                />
                             </li>
                         );
                     })}

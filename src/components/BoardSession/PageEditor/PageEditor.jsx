@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import CoverImage from "./CoverImage";
-import { Input } from "@/components/ui/input";
 import QuillEditor from "./QuillEditor";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -8,15 +7,19 @@ import {
     useGetPageQuery,
     useUpdatePageTitleMutation,
 } from "@/redux/api/apiSlice";
-import { useSelector } from "react-redux";
-import { selectedPage } from "@/redux/slices/appSlice";
 import { useDebounce } from "usehooks-ts";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSearchParams } from "react-router-dom";
+import { setSelectedPageId } from "@/redux/slices/appSlice";
+import { Input } from "@/components/ui/input";
 
 const PageEditor = () => {
-    const currentPage = useSelector(selectedPage);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentPage = searchParams.get("pageId");
+
     const {
         isFetching,
+        isLoading: isPageLoading,
         data = {},
         isSuccess,
         isError,
@@ -25,12 +28,15 @@ const PageEditor = () => {
 
     const [pageTitle, setPageTitle] = useState(data.title || "");
     const [isLoading, setisLoading] = useState(true);
-
-    const debouncedValue = useDebounce(pageTitle, 500);
+    const debouncedValue = useDebounce(pageTitle, 700);
 
     const handleTitleChange = (e) => {
         setPageTitle(e.target.value);
     };
+
+    useLayoutEffect(() => {
+        setSelectedPageId(currentPage);
+    }, []);
 
     useEffect(() => {
         if (isSuccess) {
@@ -58,8 +64,9 @@ const PageEditor = () => {
     }, [isFetching]);
 
     useEffect(() => {
-        if (isFetching && !currentPage) return;
-        updatePageTitle({ pageId: currentPage, title: pageTitle });
+        if (!isPageLoading) {
+            updatePageTitle({ pageId: currentPage, title: pageTitle });
+        }
     }, [debouncedValue]);
 
     return (
@@ -75,7 +82,9 @@ const PageEditor = () => {
                             <div className=" px-4 md:px-10 mt-2">
                                 <Input
                                     type="text"
-                                    className="bg-transparent outline-none border-none placeholder:font-bold text-2xl placeholder:text-slate-600/80 focus-visible:ring-0 focus-visible:shadow-none font-bold dark:text-slate-300 w-full whitespace-normal block text-wrap"
+                                    className={
+                                        "bg-transparent outline-none border-none placeholder:font-bold text-2xl placeholder:text-slate-600/80 focus-visible:ring-0 focus-visible:shadow-none font-bold dark:text-slate-300 resize-none w-full whitespace-normal block text-wrap h-auto overflow-hidden"
+                                    }
                                     placeholder="Untitled"
                                     disableFocus
                                     onChange={handleTitleChange}

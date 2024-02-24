@@ -188,6 +188,7 @@ const apiSlice = createApi({
                         });
                     });
                     socket.on("title-update", (data) => {
+                        const userId = getState().auth.user._id;
                         updateCachedData((draft) => {
                             const index = draft.pages.findIndex(
                                 (page) => page._id === data.pageId
@@ -195,6 +196,7 @@ const apiSlice = createApi({
                             if (isNaN(index)) return;
                             draft.pages[index].title = data.title;
                         });
+                        if (data.userId === userId) return;
                         const { patches } = dispatch(
                             apiSlice.util.updateQueryData(
                                 "getPage",
