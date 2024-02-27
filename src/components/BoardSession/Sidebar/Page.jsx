@@ -82,7 +82,9 @@ const Page = ({ page, pageArr, setIsCollapsed, isMobile = false }) => {
                         />
                     </div>
                     <div className="flex items-center gap-1 w-full">
-                        <File size={15} />
+                        <div>
+                            <File size={15} />
+                        </div>
                         <p
                             className={
                                 "whitespace-nowrap text-ellipsis overflow-hidden select-none text-[13px] pr-6"

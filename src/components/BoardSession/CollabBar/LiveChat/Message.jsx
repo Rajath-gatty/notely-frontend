@@ -37,7 +37,7 @@ const Message = ({
                             sent ? "bg-blue-600" : " bg-indigo-900/60"
                         )}
                     >
-                        <p className="text-xs ">{message}</p>
+                        <p className="text-xs break-words">{message}</p>
                         {/* <span className="text-[11px] self-end leading-4 opacity-60">
                         {Intl.DateTimeFormat("en-IN", {
                             hour: "numeric",
