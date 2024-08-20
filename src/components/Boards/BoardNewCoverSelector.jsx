@@ -35,11 +35,11 @@ const BoardNewCoverSelector = ({
                 };
             });
             setUnsplashImages(transformedData);
+            setBoardImagesLoading(false);
         };
         if (modalOpen && !unsplashImages.length) {
             setBoardImagesLoading(true);
             fetchImages();
-            setBoardImagesLoading(false);
         }
     }, [modalOpen]);
 
@@ -133,10 +133,10 @@ const BoardNewCoverSelector = ({
                           )}
                       </div>
                   ))
-                : new Array(10).fill(0).map((item) => (
+                : new Array(9).fill(0).map((_, index) => (
                       <div
-                          className="grid grid-cols-5 w-full gap-2 h-full"
-                          key={Math.random()}
+                          className="grid grid-cols-1 w-full gap-1 h-full"
+                          key={index}
                       >
                           <Skeleton className="w-full h-[70px]" />
                       </div>

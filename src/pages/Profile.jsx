@@ -60,12 +60,12 @@ const Profile = () => {
                                             Subscription expires in
                                         </p>
                                         <span className="text-3xl">
-                                            {Intl.DateTimeFormat("en-IN", {
-                                                day: "numeric",
-                                            }).format(
-                                                new Date(
+                                            {Math.ceil(
+                                                (new Date(
                                                     data?.subscriptions[0]?.endDate
-                                                ) - new Date()
+                                                ) -
+                                                    new Date()) /
+                                                    (1000 * 60 * 60 * 24)
                                             )}{" "}
                                             days
                                         </span>
